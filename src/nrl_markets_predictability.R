@@ -171,10 +171,10 @@ odds_results_df %>%
   mutate(
     y_true = home_win,
     y_pred = home_prob_close,
-    log_loss = y_true * log(y_pred) + (1 - y_true) * log(1 - y_pred)
+    log_loss = -(y_true * log(y_pred) + (1 - y_true) * log(1 - y_pred))
   )  %>% 
-  arrange(log_loss) %>% 
-  top_n(n=5, wt = -log_loss) %>% 
+  arrange(desc(log_loss)) %>% 
+  top_n(n=5, wt = log_loss) %>% 
   select(home_team, away_team, home_score, away_score, home_odds_close, away_odds_close, home_prob_close, away_prob_close, log_loss) %>% View(.)
 
 
